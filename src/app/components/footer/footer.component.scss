@@ -1,0 +1,34 @@
+footer {
+  display: flex;
+  width: 100%;
+  background:#222222;
+  height: 100px;
+}
+
+.footer-container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1022px;
+}
+
+.footer-text {
+  width: 200px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  padding-top: 4px;
+}
+
+.license {
+  cursor: pointer;
+}
+
+img {
+  cursor: pointer;
+}
+
+.license:hover {
+  color: aquamarine;
+}
