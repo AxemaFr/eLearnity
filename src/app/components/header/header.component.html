@@ -7,10 +7,10 @@
       </div>
     </div>
     <div class="navbar-links">
-      <div class="navbar-button" (click)="openModal()">
+      <div class="navbar-button" (click)="openModal2()">
         Регистрация
       </div>
-      <div class="navbar-button navbar-signin">
+      <div class="navbar-button navbar-signin" (click)="openModal1()">
         Войти
       </div>
     </div>
@@ -21,11 +21,39 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Название</h3>
+        <h3 class="modal-title">Login</h3>
         <a (click)="closeModal()" title="Close" class="close">×</a>
       </div>
       <div class="modal-body">
-        <p>Содержимое модального окна...</p>
+        <div class="form-signin">
+          <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" #login1/>
+          <input type="password" class="form-control" name="password" placeholder="Password" required="" #pass/>
+          <label class="checkbox">
+            <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+          </label>
+          <button class="btn btn-lg btn-primary btn-block" (click)="login($event)">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="openModal1" class="modal" #modal2>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Register</h3>
+        <a (click)="closeModal()" title="Close" class="close">×</a>
+      </div>
+      <div class="modal-body">
+        <div class="form-signin">
+          <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" #login2/>
+          <input type="text" class="form-control" name="full-adres" placeholder="Full adress" required="" autofocus="" #fadress/>
+          <input type="text" class="form-control" name="Country" placeholder="Country" required="" autofocus="" #country/>
+          <input type="password" class="form-control" name="password" placeholder="Password" required="" #pass2/>
+
+          <button class="btn btn-lg btn-primary btn-block" (click)="register($event)">Register</button>
+        </div>
       </div>
     </div>
   </div>
