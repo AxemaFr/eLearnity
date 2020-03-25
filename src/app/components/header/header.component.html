@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="navbar-links">
-      <div class="navbar-button">
+      <div class="navbar-button" (click)="openModal()">
         Регистрация
       </div>
       <div class="navbar-button navbar-signin">
@@ -17,12 +17,12 @@
   </div>
 </header>
 
-<div id="openModal" class="modal">
+<div id="openModal" class="modal" #modal>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title">Название</h3>
-        <a href="#close" title="Close" class="close">×</a>
+        <a (click)="closeModal()" title="Close" class="close">×</a>
       </div>
       <div class="modal-body">
         <p>Содержимое модального окна...</p>

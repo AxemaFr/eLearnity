@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+  @ViewChild('modal', {static: false}) modal: ElementRef;
   constructor() { }
 
   ngOnInit() {
   }
 
+  openModal() {
+    this.modal.nativeElement.style.display = 'block';
+  }
+
+  closeModal() {
+    this.modal.nativeElement.style.display = 'none';
+  }
 }
