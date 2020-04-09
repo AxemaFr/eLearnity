@@ -4,6 +4,8 @@ import {HeaderComponent} from './header/header.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CourseItemComponent } from './course-item/course-item.component';
 import { FooterComponent } from './footer/footer.component';
+import {HttpClientModule} from '@angular/common/http';
+import { CoursePageComponent } from './course-page/course-page.component';
 
 
 
@@ -12,7 +14,8 @@ import { FooterComponent } from './footer/footer.component';
     HeaderComponent,
     CatalogComponent,
     CourseItemComponent,
-    FooterComponent
+    FooterComponent,
+    CoursePageComponent
   ],
   exports: [
     HeaderComponent,
@@ -20,6 +23,7 @@ import { FooterComponent } from './footer/footer.component';
     FooterComponent
   ],
   imports: [
+    HttpClientModule,
     CommonModule
   ]
 })

@@ -6,12 +6,20 @@
         Каталог
       </div>
     </div>
-    <div class="navbar-links">
+    <div class="navbar-links" *ngIf="!loggedIn">
       <div class="navbar-button" (click)="openModal2()">
         Регистрация
       </div>
       <div class="navbar-button navbar-signin" (click)="openModal1()">
         Войти
+      </div>
+    </div>
+    <div class="navbar-links" *ngIf="loggedIn">
+      <div class="logged-text">
+        Logged as user
+      </div>
+      <div class="navbar-button" (click)="pushCourse()">
+        Загрузить курс
       </div>
     </div>
   </div>
@@ -22,9 +30,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title">Login</h3>
-        <a (click)="closeModal()" title="Close" class="close">×</a>
+        <a (click)="closeModal('log')" title="Close" class="close">×</a>
       </div>
       <div class="modal-body">
+        <div class="alert" *ngIf="invalid">Incorrect login/password</div>
         <div class="form-signin">
           <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" #login1/>
           <input type="password" class="form-control" name="password" placeholder="Password" required="" #pass/>
@@ -43,7 +52,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title">Register</h3>
-        <a (click)="closeModal()" title="Close" class="close">×</a>
+        <a (click)="closeModal('reg')" title="Close" class="close">×</a>
       </div>
       <div class="modal-body">
         <div class="form-signin">
@@ -53,6 +62,29 @@
           <input type="password" class="form-control" name="password" placeholder="Password" required="" #pass2/>
 
           <button class="btn btn-lg btn-primary btn-block" (click)="register($event)">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="openModal2" class="modal" #courseModal>
+  <div class="modal-dialog modal-dialog-big">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Upload course</h3>
+        <a (click)="closeModal('push')" title="Close" class="close">×</a>
+      </div>
+      <div class="modal-body">
+        <div class="form-signin form-signin-big">
+          <input type="text" class="form-control" name="Id" placeholder="uniqueId" required="" autofocus="" #courseId/>
+          <input type="text" class="form-control" name="courseName" placeholder="CourseName" required="" autofocus="" #courseName/>
+          <input type="text" class="form-control" name="title" placeholder="Title" required="" autofocus="" #title/>
+          <input type="text" class="form-control" name="description" placeholder="Description" required="" autofocus="" #description/>
+          <input type="text" class="form-control" name="logoUrl" placeholder="Logo link" required="" #logoUrl/>
+          <input type="text" class="form-control" name="Price" placeholder="Price" required="" autofocus="" #price/>
+          <textarea name="Text1" class="big-input" cols="40" rows="5" #body></textarea>
+          <button class="btn btn-lg btn-primary btn-block" (click)="sendCourse($event)">Send Course</button>
         </div>
       </div>
     </div>

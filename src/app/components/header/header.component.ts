@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,19 @@ export class HeaderComponent implements OnInit {
   @ViewChild('country', {static: false}) country: ElementRef;
   @ViewChild('fadress', {static: false}) fadress: ElementRef;
 
-  constructor() { }
+
+  @ViewChild('courseModal', {static: false}) courseModal: ElementRef;
+  @ViewChild('courseId', {static: false}) courseId: ElementRef;
+  @ViewChild('courseName', {static: false}) courseName: ElementRef;
+  @ViewChild('title', {static: false}) title: ElementRef;
+  @ViewChild('description', {static: false}) description: ElementRef;
+  @ViewChild('logoUrl', {static: false}) logoUrl: ElementRef;
+  @ViewChild('price', {static: false}) price: ElementRef;
+  @ViewChild('body', {static: false}) body: ElementRef;
+
+  private loggedIn = false;
+  private invalid: boolean = false;
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
@@ -25,36 +38,73 @@ export class HeaderComponent implements OnInit {
     this.modal.nativeElement.style.display = 'block';
   }
 
-  closeModal() {
-    this.loginText.nativeElement.value = '';
-    this.passText.nativeElement.value = '';
-    this.loginText2.nativeElement.value = '';
-    this.passText2.nativeElement.value = '';
-    this.country.nativeElement.value = '';
-    this.fadress.nativeElement.value = '';
-    this.modal.nativeElement.style.display = 'none';
-    this.modal2.nativeElement.style.display = 'none';
+  closeModal(type: string) {
+    if (type === 'login') {
+      this.loginText.nativeElement.value = '';
+      this.passText.nativeElement.value = '';
+      this.modal.nativeElement.style.display = 'none';
+    }
+    if (type === 'reg') {
+      this.loginText2.nativeElement.value = '';
+      this.passText2.nativeElement.value = '';
+      this.country.nativeElement.value = '';
+      this.fadress.nativeElement.value = '';
+      this.modal2.nativeElement.style.display = 'none';
+    }
+    if (type === 'push') {
+      this.courseName.nativeElement.value = '';
+      this.title.nativeElement.value = '';
+      this.description.nativeElement.value = '';
+      this.logoUrl.nativeElement.value = '';
+      this.price.nativeElement.value = '';
+      this.body.nativeElement.value = '';
+      this.courseModal.nativeElement.style.display = 'none';
+    }
   }
 
   login(event) {
     let log = this.loginText.nativeElement.value;
     let pas = this.passText.nativeElement.value;
-    console.log('LOG IN');
-    console.log('LOGIN: ' + log);
-    console.log('PASS: ' + pas);
-    this.closeModal();
+    this.http.post(`http://127.0.0.1:8080/user/signin?email=${log}&password=${pas}`, {})
+      .subscribe( (response: boolean) => {
+        if (response) {
+          this.invalid = false;
+          this.loggedIn = true;
+          this.closeModal('login');
+        } else {
+          this.invalid = true;
+        }
+      });
   }
 
   register($event: MouseEvent) {
-    console.log('REGISTER:::>');
-    console.log('Login: ' + this.loginText2.nativeElement.value);
-    console.log('password: ' + this.passText2.nativeElement.value);
-    console.log('country: ' + this.country.nativeElement.value);
-    console.log('adress: ' + this.fadress.nativeElement.value);
-    this.closeModal();
+    this.http.post('http://127.0.0.1:8080/user', {
+      email: this.loginText2.nativeElement.value,
+      country: this.country.nativeElement.value,
+      address: this.fadress.nativeElement.value,
+      password: this.passText2.nativeElement.value
+    }).subscribe( (resp) => console.log(resp));
+    this.closeModal('reg');
   }
 
   openModal2() {
     this.modal2.nativeElement.style.display = 'block';
+  }
+
+  pushCourse() {
+    this.courseModal.nativeElement.style.display = 'block';
+  }
+
+  sendCourse($event: MouseEvent) {
+    let course = {
+      id: this.courseId.nativeElement.value,
+      courseName: this.courseName.nativeElement.value,
+      title: this.title.nativeElement.value,
+      description: this.description.nativeElement.value,
+      logoUrl: this.logoUrl.nativeElement.value,
+      price: this.price.nativeElement.value,
+      body: this.body.nativeElement.value.split('\n' )
+    };
+    this.closeModal('push')
   }
 }
