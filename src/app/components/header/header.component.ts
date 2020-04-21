@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   @ViewChild('modal2', {static: false}) modal2: ElementRef;
   @ViewChild('login2', {static: false}) loginText2: ElementRef;
   @ViewChild('pass2', {static: false}) passText2: ElementRef;
+  @ViewChild('pass3', {static: false}) passText3: ElementRef;
   @ViewChild('country', {static: false}) country: ElementRef;
   @ViewChild('fadress', {static: false}) fadress: ElementRef;
 
@@ -30,9 +31,12 @@ export class HeaderComponent implements OnInit {
 
   private loggedIn = false;
   private invalid: boolean = false;
+  public regInval: boolean = false;
+  public regInvalMsg: string;
+
   constructor(private http: HttpClient,
-              private router: Router)
-  { }
+              private router: Router) {
+  }
 
   ngOnInit() {
   }
@@ -42,7 +46,7 @@ export class HeaderComponent implements OnInit {
   }
 
   closeModal(type: string) {
-    if (type === 'login') {
+    if (type === 'log') {
       this.loginText.nativeElement.value = '';
       this.passText.nativeElement.value = '';
       this.modal.nativeElement.style.display = 'none';
@@ -50,6 +54,7 @@ export class HeaderComponent implements OnInit {
     if (type === 'reg') {
       this.loginText2.nativeElement.value = '';
       this.passText2.nativeElement.value = '';
+      this.passText3.nativeElement.value = '';
       this.country.nativeElement.value = '';
       this.fadress.nativeElement.value = '';
       this.modal2.nativeElement.style.display = 'none';
@@ -81,13 +86,31 @@ export class HeaderComponent implements OnInit {
   }
 
   register($event: MouseEvent) {
+    let mail = this.loginText2.nativeElement.value;
+    let pass = this.passText2.nativeElement.value;
+    let repass = this.passText3.nativeElement.value;
+    if (pass !== repass) {
+      this.regInval = true;
+      this.regInvalMsg = 'Passwords are not the same';
+      return;
+    }
+    if (!this.validateEmail(mail)) {
+      this.regInval = true;
+      this.regInvalMsg = "Incorrect Email";
+      return;
+    }
+    if (!this.validatePass(pass)) {
+      this.regInval = true;
+      this.regInvalMsg = "Password must contain at least 8 symbols, 1 uppercase, 1 lowercase, 1 digit";
+      return;
+    }
+    this.regInval = false;
     this.http.post('http://127.0.0.1:8080/user', {
-      email: this.loginText2.nativeElement.value,
+      email: mail,
       country: this.country.nativeElement.value,
       address: this.fadress.nativeElement.value,
-      password: this.passText2.nativeElement.value
-    }).subscribe( (resp) => console.log(resp));
-    this.closeModal('reg');
+      password: pass
+    }).subscribe((resp) => this.closeModal('reg'));
   }
 
   openModal2() {
@@ -106,11 +129,11 @@ export class HeaderComponent implements OnInit {
       description: this.description.nativeElement.value,
       logoUrl: this.logoUrl.nativeElement.value,
       price: this.price.nativeElement.value,
-      body: this.body.nativeElement.value.split('\n' )
+      body: this.body.nativeElement.value.split('\n')
     };
-    this.http.post('http://localhost:8080/course/', course).subscribe( (resp) => {
+    this.http.post('http://localhost:8080/course/', course).subscribe((resp) => {
         this.closeModal('push')
-    },
+      },
       (error => {
         console.log(error);
         this.closeModal('push')
@@ -121,5 +144,16 @@ export class HeaderComponent implements OnInit {
   navigate(strings: string[]) {
     this.router.navigate(strings);
     document.documentElement.scrollTop = 0;
+  }
+
+
+  validateEmail(email) {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  validatePass(pass) {
+    let re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    return re.test(String(pass));
   }
 }
