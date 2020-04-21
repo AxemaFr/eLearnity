@@ -2,7 +2,7 @@
   <div class="navbar-wrapper">
     <div class="navbar-head">
       eLearnity
-      <div class="navbar-button">
+      <div class="navbar-button" (click)="navigate(['/'])">
         Каталог
       </div>
     </div>
@@ -77,7 +77,7 @@
       </div>
       <div class="modal-body">
         <div class="form-signin form-signin-big">
-          <input type="text" class="form-control" name="Id" placeholder="uniqueId" required="" autofocus="" #courseId/>
+          <input type="text" class="form-control" name="Author" placeholder="Author" required="" autofocus="" #Author/>
           <input type="text" class="form-control" name="courseName" placeholder="CourseName" required="" autofocus="" #courseName/>
           <input type="text" class="form-control" name="title" placeholder="Title" required="" autofocus="" #title/>
           <input type="text" class="form-control" name="description" placeholder="Description" required="" autofocus="" #description/>

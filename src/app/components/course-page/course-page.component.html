@@ -1,10 +1,34 @@
 <div class="catalog-header">
   <div class="page-fragment">
+    <div class="title-text">
+      <div class="white-tittle">
+        {{course.tittle}}
+      </div>
+      <div class="white-description">
+        {{course.description}}
+      </div>
+    </div>
+    <div class="logo" style="margin-left: 50px">
+      <img [src]="course.logoUrl" class="course-page-logo" alt="" style="width: 500px; height: 300px; margin-top: 50px;">
+    </div>
   </div>
 </div>
 
 <div class="catalog-content-wrapper">
   <div class="catalog-content">
-
+    <article class="course-promo">
+      <p *ngFor="let par of course.body; let i = index"
+      [class.font-weight-bold]="i < 2">
+        {{par}}
+      </p>
+    </article>
+    <aside class="course-promo-aside">
+      <div class="price">
+        {{course.price}}$
+      </div>
+      <div class="promo-button">
+        Записаться на курс!
+      </div>
+    </aside>
   </div>
 </div>

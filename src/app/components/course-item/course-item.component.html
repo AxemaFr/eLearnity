@@ -1,14 +1,14 @@
 <div class="course-item-wrapper">
-  <img src="https://stepik.org/media/cache/images/courses/9182/cover_lljvATo/3ed0232e55088cceff474efc1cfa48c0.png"
+  <img [src]="logoUrl"
        alt="png" width="120" height="120" style="border-radius: 10px;">
-  <p class="underimage-text">Author of course</p>
-  <p class="course-main-text">
-    Course name
+  <p class="underimage-text">{{Author}}</p>
+  <p class="course-main-text" (click)="navigate()">
+    {{this.name}}
   </p>
   <div class="course-item-bottom">
     <div>
       <img src="https://i.ibb.co/pnvzyXf/man.jpg" alt="human" width="20" height="20">
-      4300
+      {{this.price}} $
     </div>
     <div>
       <span class="course-promo-widget__stats-icon">★</span>

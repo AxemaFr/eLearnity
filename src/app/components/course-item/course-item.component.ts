@@ -1,4 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-course-item',
@@ -7,16 +9,26 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class CourseItemComponent implements OnInit {
 
-  @Input('courseName') nme: string;
+  @Input('courseName') name: string;
   @Input('title') title: string;
   @Input('description') description: string;
   @Input('logoUrl') logoUrl: string;
   @Input('price') price: string;
   @Input('body') body: string;
+  @Input('Author') Author: string;
 
-  constructor() { }
+  @Input('uid') uid: string;
 
-  ngOnInit() {
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
+  ngOnInit() {
+    console.log(this.uid)
+  }
+
+  navigate() {
+    this.router.navigate([`course/`, this.uid]);
+    document.documentElement.scrollTop = 0;
+  }
 }

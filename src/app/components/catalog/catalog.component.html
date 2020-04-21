@@ -38,12 +38,15 @@
       Новые курсы:
     </p>
     <div class="courses-list">
-      <app-course-item></app-course-item>
-      <app-course-item></app-course-item>
-      <app-course-item></app-course-item>
-      <app-course-item></app-course-item>
-      <app-course-item></app-course-item>
-      <app-course-item></app-course-item>
+      <app-course-item *ngFor="let course of courses"
+                       [uid]="course.id"
+                        [courseName]="course.courseName"
+                       [description]="course.description"
+                       [logoUrl]="course.logoUrl"
+                       [Author]="course.Author"
+                       [title]="course.tittle"
+                       [price]="course.price"
+                       [body]="course.body"></app-course-item>
     </div>
   </div>
 </div>

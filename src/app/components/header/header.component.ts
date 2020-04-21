@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +20,7 @@ export class HeaderComponent implements OnInit {
 
 
   @ViewChild('courseModal', {static: false}) courseModal: ElementRef;
-  @ViewChild('courseId', {static: false}) courseId: ElementRef;
+  @ViewChild('Author', {static: false}) Author: ElementRef;
   @ViewChild('courseName', {static: false}) courseName: ElementRef;
   @ViewChild('title', {static: false}) title: ElementRef;
   @ViewChild('description', {static: false}) description: ElementRef;
@@ -29,7 +30,9 @@ export class HeaderComponent implements OnInit {
 
   private loggedIn = false;
   private invalid: boolean = false;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private router: Router)
+  { }
 
   ngOnInit() {
   }
@@ -97,14 +100,26 @@ export class HeaderComponent implements OnInit {
 
   sendCourse($event: MouseEvent) {
     let course = {
-      id: this.courseId.nativeElement.value,
+      Author: this.Author.nativeElement.value,
       courseName: this.courseName.nativeElement.value,
-      title: this.title.nativeElement.value,
+      tittle: this.title.nativeElement.value,
       description: this.description.nativeElement.value,
       logoUrl: this.logoUrl.nativeElement.value,
       price: this.price.nativeElement.value,
       body: this.body.nativeElement.value.split('\n' )
     };
-    this.closeModal('push')
+    this.http.post('http://localhost:8080/course/', course).subscribe( (resp) => {
+        this.closeModal('push')
+    },
+      (error => {
+        console.log(error);
+        this.closeModal('push')
+      })
+    );
+  }
+
+  navigate(strings: string[]) {
+    this.router.navigate(strings);
+    document.documentElement.scrollTop = 0;
   }
 }
