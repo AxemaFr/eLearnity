@@ -245,3 +245,21 @@ body {
 .margin-top {
   margin-top: 20px;
 }
+
+.notification {
+  z-index: 999999999;
+  position: fixed;
+  display: flex;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+  height: 60px;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s;
+}
+
+.hided {
+  right: -250px;
+}

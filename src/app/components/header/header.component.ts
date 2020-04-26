@@ -29,10 +29,12 @@ export class HeaderComponent implements OnInit {
   @ViewChild('price', {static: false}) price: ElementRef;
   @ViewChild('body', {static: false}) body: ElementRef;
 
+  @ViewChild('notification', {static: false}) notify: ElementRef;
   private loggedIn = false;
   private invalid: boolean = false;
   public regInval: boolean = false;
   public regInvalMsg: string;
+  public notificationText: string = '';
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -50,6 +52,7 @@ export class HeaderComponent implements OnInit {
       this.loginText.nativeElement.value = '';
       this.passText.nativeElement.value = '';
       this.modal.nativeElement.style.display = 'none';
+      this.invalid = false;
     }
     if (type === 'reg') {
       this.loginText2.nativeElement.value = '';
@@ -58,6 +61,7 @@ export class HeaderComponent implements OnInit {
       this.country.nativeElement.value = '';
       this.fadress.nativeElement.value = '';
       this.modal2.nativeElement.style.display = 'none';
+      this.regInval = false;
     }
     if (type === 'push') {
       this.courseName.nativeElement.value = '';
@@ -78,9 +82,11 @@ export class HeaderComponent implements OnInit {
         if (response) {
           this.invalid = false;
           this.loggedIn = true;
-          this.closeModal('login');
+          this.closeModal('log');
+          this.showGoodNotify('You are logged in!');
         } else {
           this.invalid = true;
+          this.showBadNotify('Cant log in.');
         }
       });
   }
@@ -110,7 +116,10 @@ export class HeaderComponent implements OnInit {
       country: this.country.nativeElement.value,
       address: this.fadress.nativeElement.value,
       password: pass
-    }).subscribe((resp) => this.closeModal('reg'));
+    }).subscribe((resp) => {
+      this.closeModal('reg');
+      this.showGoodNotify('Thank you for registration!');
+    });
   }
 
   openModal2() {
@@ -135,7 +144,6 @@ export class HeaderComponent implements OnInit {
         this.closeModal('push')
       },
       (error => {
-        console.log(error);
         this.closeModal('push')
       })
     );
@@ -155,5 +163,25 @@ export class HeaderComponent implements OnInit {
   validatePass(pass) {
     let re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
     return re.test(String(pass));
+  }
+
+  showGoodNotify(text) {
+    this.notify.nativeElement.style.background = '#4b934b';
+    this.notificationText = text;
+    this.notify.nativeElement.classList.remove('hided');
+    setTimeout( () => {
+      this.notify.nativeElement.classList.add('hided');
+      this.notificationText = '';
+    }, 3000);
+  }
+
+  showBadNotify(text) {
+    this.notify.nativeElement.style.background = '#d74949';
+    this.notificationText = text;
+    this.notify.nativeElement.classList.remove('hided');
+    setTimeout( () => {
+      this.notify.nativeElement.classList.add('hided');
+      this.notificationText = '';
+    }, 3000);
   }
 }

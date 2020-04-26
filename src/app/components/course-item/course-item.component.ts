@@ -24,7 +24,6 @@ export class CourseItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.uid)
   }
 
   navigate() {

@@ -59,16 +59,15 @@ export class CatalogComponent implements OnInit {
       ],
       Author: 'Yann Donon'
     }
-  ];
-   */
+  ];*/
   private courses: any;
   ngOnInit() {
-    /*this.courses.forEach( (course) => {
-      this.http.post('http://localhost:8080/course/', course).subscribe( (item) => console.log(item));
-    })*/
+    // this.courses.forEach( (course) => {
+    //   this.http.post('http://localhost:8080/course/', course).subscribe( (item) => console.log(item));
+    // })
     this.http.get('http://localhost:8080/course/').subscribe( (response) => {
       this.courses = response;
-    })
+    });
   }
 
 
